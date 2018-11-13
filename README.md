@@ -2,9 +2,6 @@
 
 Blackjack implementation on Android.
 
-
-This is my second application for Android.
-
 This is an Android implementation of a previous project done on Processing with Python.
 
 The basic functionality of the game are as follows:
