@@ -13,6 +13,7 @@ The basic functionality of the game are as follows:
 3.	The current bet is display on the upper right corner.
 4.	 A button in the center-top region resets the money.
 
-All UI code is shifted onto fragments, except the welcome screen.
+The code architecture of note are as follows:
+1.	All UI code is shifted onto fragments from activities, with the exception of the welcome screen.
+2.	The game logic object utilizes singleton model that restricts the instantiation of a class to one object, so that there is no race       condition with multiple instances of the game running.
 
-The game logic object utilizes singleton model.
