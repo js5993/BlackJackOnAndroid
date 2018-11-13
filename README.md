@@ -5,7 +5,7 @@ Blackjack implementation on Android.
 
 This is my second application for Android.
 
-This is an Adnroid implementation of a previous project done on Processing with Python.
+This is an Android implementation of a previous project done on Processing with Python.
 
 The basic functionality of the game are as follows:
 1.	There are three buttons on the left side for the three Blackjack game functions: Deal, Stand, Hit
