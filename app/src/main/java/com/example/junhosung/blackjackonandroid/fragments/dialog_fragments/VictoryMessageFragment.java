@@ -1,39 +1,36 @@
-package com.example.junhosung.blackjackonandroid;
+package com.example.junhosung.blackjackonandroid.fragments.dialog_fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.example.junhosung.blackjackonandroid.R;
+
 /**
  * Created by Junho Sung on 8/22/2018.
  */
 
+public class VictoryMessageFragment extends DialogFragment {
 
-public class DefeatMessageFragment extends DialogFragment {
+    public static VictoryMessageFragment newInstance(String score) {
 
-
-    public static DefeatMessageFragment newInstance(String score) {
-
-        DefeatMessageFragment defeatMessageFragment = new DefeatMessageFragment();
+        VictoryMessageFragment victoryMessageFragment = new VictoryMessageFragment();
 
         Bundle args = new Bundle();
         args.putString("score",score);
-        defeatMessageFragment.setArguments(args);
+        victoryMessageFragment.setArguments(args);
 
-        return defeatMessageFragment;
+        return victoryMessageFragment;
     }
 
-
-    @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_defeat,null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_victory,null);
         Bundle args = getArguments();
         String finalScore = args.getString("score");
 
@@ -44,10 +41,9 @@ public class DefeatMessageFragment extends DialogFragment {
             }
         };
 
-        return new AlertDialog.Builder(getActivity()).setTitle("")
+        return new AlertDialog.Builder(getActivity()).setTitle(" ")
                 .setMessage(finalScore)
                 .setView(view).setPositiveButton("ok",onClickListener)
                 .create();
-
     }
 }

@@ -1,4 +1,4 @@
-package com.example.junhosung.blackjackonandroid;
+package com.example.junhosung.blackjackonandroid.fragments;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -15,10 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.FrameLayout;
+
+import com.example.junhosung.blackjackonandroid.fragments.dialog_fragments.DefeatMessageFragment;
+import com.example.junhosung.blackjackonandroid.fragments.dialog_fragments.DrawMessageFragment;
+import com.example.junhosung.blackjackonandroid.fragments.dialog_fragments.VictoryMessageFragment;
+import com.example.junhosung.blackjackonandroid.model.AudioPlayer;
+import com.example.junhosung.blackjackonandroid.model.Blackjack;
+import com.example.junhosung.blackjackonandroid.model.Card;
+import com.example.junhosung.blackjackonandroid.R;
 
 import java.util.List;
 
@@ -31,7 +38,6 @@ public class GameActivityFragment extends Fragment {
 
     TextView txtViewCash;
     TextView txtViewBet;
-    TextView txtFinalScore;
 
     Button btnDeal;
     Button btnStand;
@@ -42,13 +48,8 @@ public class GameActivityFragment extends Fragment {
     Button btnBet1;
     Button btnResetCash;
 
-    LinearLayout layoutDealerHand;
-    LinearLayout layoutPlayerHand;
-
     FrameLayout layoutDealerHand1;
     FrameLayout layoutPlayerHand1;
-
-
 
     Blackjack blackjack = Blackjack.getInstance();
     AudioPlayer audioPlayer = new AudioPlayer();
@@ -102,7 +103,7 @@ public class GameActivityFragment extends Fragment {
             public void onClick(View view) {
 
                 if (blackjack.dealerHand.countCards() == 0 && blackjack.playerHand.countCards() == 0) {
-                    Toast.makeText(getActivity(),"you have to deal cards before you can stand!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"you have to deal cards before you can stand!",Toast.LENGTH_LONG).show();
                 }
 
                 else {
@@ -112,10 +113,22 @@ public class GameActivityFragment extends Fragment {
                     blackjack.checkWin();
                 }
 
-                //Toast.makeText(getActivity(),"value of hands: d" + String.valueOf(blackjack.dealerHand.handValue()) + "  p" + String.valueOf(blackjack.playerHand.handValue()),Toast.LENGTH_SHORT).show();
+                if (blackjack.checkDraw()) {
+                    resetGame(blackjack);
+                    blackjack.reshuffle();
 
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            drawHands(layoutDealerHand1, blackjack.dealerHand.hand);
+                            drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
+                        }
+                    },2500);
 
-                if (blackjack.playerVictory || blackjack.dealerVictory) {
+                }
+
+                else if (blackjack.playerVictory || blackjack.dealerVictory) {
 
                     resetGame(blackjack);
                     blackjack.reshuffle();
@@ -131,7 +144,7 @@ public class GameActivityFragment extends Fragment {
                             drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
 
                         }
-                    },2000);
+                    },2500);
 
                 }
 
@@ -150,13 +163,27 @@ public class GameActivityFragment extends Fragment {
 
                 else {
                     blackjack.hit();
-                    //Toast.makeText(getActivity(),"value of hands: d" + String.valueOf(blackjack.dealerHand.handValue()) + "  p" + String.valueOf(blackjack.playerHand.handValue()),Toast.LENGTH_SHORT).show();
                     drawHands(layoutDealerHand1, blackjack.dealerHand.hand);
                     drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
                     blackjack.checkWin();
                 }
 
-                if (blackjack.playerVictory || blackjack.dealerVictory) {
+                if (blackjack.checkDraw()) {
+                    resetGame(blackjack);
+                    blackjack.reshuffle();
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            drawHands(layoutDealerHand1, blackjack.dealerHand.hand);
+                            drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
+                        }
+                    },2500);
+
+                }
+
+                else if (blackjack.playerVictory || blackjack.dealerVictory) {
 
                     resetGame(blackjack);
                     blackjack.reshuffle();
@@ -172,7 +199,7 @@ public class GameActivityFragment extends Fragment {
                             drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
 
                         }
-                    },2000);
+                    },2500);
                 }
             }
         });
@@ -298,7 +325,6 @@ public class GameActivityFragment extends Fragment {
         }
 
         if (hand.size() != 0) {
-
             int leftMargin = 0;
 
             for (int i = 0; i < hand.size(); i++) {
@@ -308,9 +334,6 @@ public class GameActivityFragment extends Fragment {
 
                 leftMargin += 70;
                 params1.leftMargin = leftMargin;
-
-                //LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                //      LinearLayout.LayoutParams.MATCH_PARENT, (float) 1.0);
 
                 String cardImgId = hand.get(i).imgId;
                 int imageResource = getResources().getIdentifier(cardImgId, "drawable", getActivity().getPackageName());
@@ -322,12 +345,10 @@ public class GameActivityFragment extends Fragment {
             }
 
         }
-
         else if (hand.size() == 0) {
             layout.removeAllViews();
         }
     }
-
     private void resetGame(Blackjack blackjack) {
 
         if (blackjack.playerVictory == true) {
@@ -342,10 +363,9 @@ public class GameActivityFragment extends Fragment {
             blackjack.playerVictory = false;
             blackjack.dealerVictory = false;
             blackjack.reshuffle();
-
         }
 
-        if (blackjack.dealerVictory == true) {
+        else if (blackjack.dealerVictory == true) {
 
             String finalScore = "final score: the player -> " + blackjack.playerHand.handValue() + ", the dealer -> "
                     + blackjack.dealerHand.handValue();
@@ -357,10 +377,19 @@ public class GameActivityFragment extends Fragment {
             blackjack.playerVictory = false;
             blackjack.dealerVictory = false;
             blackjack.reshuffle();
-
         }
+
+        // In case of draw ...
+
+        else if (blackjack.playerVictory == false && blackjack.dealerVictory == false) {
+            String finalScore = "final score: the player -> " + blackjack.playerHand.handValue() + ", the dealer -> "
+                    + blackjack.dealerHand.handValue();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            DrawMessageFragment drawMessageFragment = DrawMessageFragment.newInstance(finalScore);
+            drawMessageFragment.show(fragmentManager,"Draw Dialog");
+
+            blackjack.reshuffle();
+        }
+
     }
-
-
-
 }
