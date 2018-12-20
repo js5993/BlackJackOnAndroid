@@ -1,43 +1,41 @@
-package com.example.junhosung.blackjackonandroid.fragments.dialog_fragments;
+package com.example.junhosung.blackjackonandroid.views.fragments.dialogFragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.support.v4.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import com.example.junhosung.blackjackonandroid.R;
 
 /**
- * Created by Junho Sung on 8/22/2018.
+ * Created by Junho Sung on 12/16/2018.
  */
 
-public class VictoryMessageFragment extends DialogFragment {
+public class DrawMessageFragment extends DialogFragment {
 
-    public static VictoryMessageFragment newInstance(String score) {
+    public static DrawMessageFragment newInstance(String score) {
 
-        VictoryMessageFragment victoryMessageFragment = new VictoryMessageFragment();
+        DrawMessageFragment drawMessageFragment = new DrawMessageFragment();
 
         Bundle args = new Bundle();
         args.putString("score",score);
-        victoryMessageFragment.setArguments(args);
+        drawMessageFragment.setArguments(args);
 
-        return victoryMessageFragment;
+        return drawMessageFragment;
     }
 
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_victory,null);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_draw,null);
         Bundle args = getArguments();
         String finalScore = args.getString("score");
 
         DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                //
+
             }
         };
 
@@ -45,5 +43,8 @@ public class VictoryMessageFragment extends DialogFragment {
                 .setMessage(finalScore)
                 .setView(view).setPositiveButton("ok",onClickListener)
                 .create();
+
+
+
     }
 }

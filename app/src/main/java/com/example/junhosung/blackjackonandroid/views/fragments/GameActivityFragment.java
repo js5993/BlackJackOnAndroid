@@ -1,4 +1,4 @@
-package com.example.junhosung.blackjackonandroid.fragments;
+package com.example.junhosung.blackjackonandroid.views.fragments;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,13 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.FrameLayout;
 
-import com.example.junhosung.blackjackonandroid.fragments.dialog_fragments.DefeatMessageFragment;
-import com.example.junhosung.blackjackonandroid.fragments.dialog_fragments.DrawMessageFragment;
-import com.example.junhosung.blackjackonandroid.fragments.dialog_fragments.VictoryMessageFragment;
-import com.example.junhosung.blackjackonandroid.model.AudioPlayer;
-import com.example.junhosung.blackjackonandroid.model.Blackjack;
-import com.example.junhosung.blackjackonandroid.model.Card;
+import com.example.junhosung.blackjackonandroid.models.AudioPlayer;
+import com.example.junhosung.blackjackonandroid.models.Blackjack;
+import com.example.junhosung.blackjackonandroid.models.Card;
 import com.example.junhosung.blackjackonandroid.R;
+import com.example.junhosung.blackjackonandroid.views.fragments.dialogFragments.DefeatMessageFragment;
+import com.example.junhosung.blackjackonandroid.views.fragments.dialogFragments.DrawMessageFragment;
+import com.example.junhosung.blackjackonandroid.views.fragments.dialogFragments.VictoryMessageFragment;
 
 import java.util.List;
 

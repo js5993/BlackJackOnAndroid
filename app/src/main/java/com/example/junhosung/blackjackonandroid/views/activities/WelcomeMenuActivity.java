@@ -1,4 +1,4 @@
-package com.example.junhosung.blackjackonandroid.activities;
+package com.example.junhosung.blackjackonandroid.views.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

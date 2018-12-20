@@ -10,12 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".GameActivity"
+            android:name=".views.activities.GameActivity"
             android:configChanges="orientation"
             android:screenOrientation="landscape">
 
         </activity>
-        <activity android:name=".WelcomeMenuActivity">
+        <activity android:name=".views.activities.WelcomeMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

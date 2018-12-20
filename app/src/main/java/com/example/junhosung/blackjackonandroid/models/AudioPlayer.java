@@ -1,7 +1,9 @@
-package com.example.junhosung.blackjackonandroid;
+package com.example.junhosung.blackjackonandroid.models;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+
+import com.example.junhosung.blackjackonandroid.R;
 
 /**
  * Created by Junho Sung on 8/15/2018.
@@ -21,7 +23,7 @@ public class AudioPlayer {
     public void play(final Context context) {
         stop();
 
-        mediaPlayer = MediaPlayer.create(context,R.raw.song2);
+        mediaPlayer = MediaPlayer.create(context, R.raw.song2);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {

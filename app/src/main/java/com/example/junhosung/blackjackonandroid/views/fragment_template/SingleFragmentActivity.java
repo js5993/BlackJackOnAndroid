@@ -1,4 +1,4 @@
-package com.example.junhosung.blackjackonandroid.fragment_template;
+package com.example.junhosung.blackjackonandroid.views.fragment_template;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

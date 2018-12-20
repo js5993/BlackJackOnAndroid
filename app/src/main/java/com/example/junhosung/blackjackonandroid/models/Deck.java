@@ -1,4 +1,4 @@
-package com.example.junhosung.blackjackonandroid;
+package com.example.junhosung.blackjackonandroid.models;
 
 import java.util.ArrayList;
 import java.util.Collections;

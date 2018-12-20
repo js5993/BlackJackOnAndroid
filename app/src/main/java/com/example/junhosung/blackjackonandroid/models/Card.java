@@ -1,4 +1,4 @@
-package com.example.junhosung.blackjackonandroid;
+package com.example.junhosung.blackjackonandroid.models;
 
 /**
  * Created by Junho Sung on 11/13/2018.
