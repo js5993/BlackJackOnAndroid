@@ -11,28 +11,28 @@ import com.example.junhosung.blackjackonandroid.R;
 
 public class AudioPlayer {
 
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mMediaPlayer;
 
     public void stop() {
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
         }
     }
 
     public void play(final Context context) {
         stop();
 
-        mediaPlayer = MediaPlayer.create(context, R.raw.song2);
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        mMediaPlayer = MediaPlayer.create(context, R.raw.song2);
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 play(context);
             }
         });
 
-        mediaPlayer.start();
-        mediaPlayer.setLooping(true);
+        mMediaPlayer.start();
+        mMediaPlayer.setLooping(true);
     }
 
 }

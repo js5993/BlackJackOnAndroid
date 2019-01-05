@@ -36,30 +36,30 @@ import java.util.List;
 
 public class GameActivityFragment extends Fragment {
 
-    TextView txtViewCash;
-    TextView txtViewBet;
+    TextView mTxtViewCash;
+    TextView mTxtViewBet;
 
-    Button btnDeal;
-    Button btnStand;
-    Button btnHit;
-    Button btnBet100;
-    Button btnBet25;
-    Button btnBet5;
-    Button btnBet1;
-    Button btnResetCash;
+    Button mBtnDeal;
+    Button mBtnStand;
+    Button mBtnHit;
+    Button mBtnBet100;
+    Button mBtnBet25;
+    Button mBtnBet5;
+    Button mBtnBet1;
+    Button mBtnResetCash;
 
-    FrameLayout layoutDealerHand1;
-    FrameLayout layoutPlayerHand1;
+    FrameLayout mLayoutDealerHand1;
+    FrameLayout mLayoutPlayerHand1;
 
-    Blackjack blackjack = Blackjack.getInstance();
-    AudioPlayer audioPlayer = new AudioPlayer();
+    Blackjack sBlackjack = Blackjack.getInstance();
+    AudioPlayer mAudioPlayer = new AudioPlayer();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        blackjack.deck.shuffleDeck();
-        audioPlayer.play(getActivity());
+        sBlackjack.getDeck().shuffleDeck();
+        mAudioPlayer.play(getActivity());
 
     }
 
@@ -68,25 +68,24 @@ public class GameActivityFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game,container,false);
 
-        txtViewCash = (TextView) view.findViewById(R.id.txtView_display_cash);
-        txtViewCash.setText(String.valueOf(blackjack.playerCash));
+        mTxtViewCash = (TextView) view.findViewById(R.id.txtView_display_cash);
+        mTxtViewCash.setText(String.valueOf(sBlackjack.getPlayerCash()));
 
-        txtViewBet = (TextView) view.findViewById(R.id.txtView_display_bet);
-        txtViewBet.setText(String.valueOf(blackjack.playerBet));
+        mTxtViewBet = (TextView) view.findViewById(R.id.txtView_display_bet);
+        mTxtViewBet.setText(String.valueOf(sBlackjack.getPlayerBet()));
 
-        layoutDealerHand1 = (FrameLayout) view.findViewById(R.id.layout_dealer_hand);
-        layoutPlayerHand1 = (FrameLayout) view.findViewById(R.id.layout_player_hand);
+        mLayoutDealerHand1 = (FrameLayout) view.findViewById(R.id.layout_dealer_hand);
+        mLayoutPlayerHand1 = (FrameLayout) view.findViewById(R.id.layout_player_hand);
 
-        btnDeal = (Button) view.findViewById(R.id.btn_deal);
-        btnDeal.setOnClickListener(new View.OnClickListener() {
+        mBtnDeal = (Button) view.findViewById(R.id.btn_deal);
+        mBtnDeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (blackjack.playerHand.countCards() == 0 && blackjack.dealerHand.countCards() ==0) {
-                    blackjack.dealInitialHands();
-                    drawHands(layoutDealerHand1, blackjack.dealerHand.hand);
-                    drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
-
+                if (sBlackjack.getPlayerHand().countCards() == 0 && sBlackjack.getDealerHand().countCards() ==0) {
+                    sBlackjack.dealInitialHands();
+                    drawHands(mLayoutDealerHand1, sBlackjack.getDealerHand().getHand());
+                    drawHands(mLayoutPlayerHand1, sBlackjack.getPlayerHand().getHand());
                 }
 
                 else {
@@ -97,106 +96,104 @@ public class GameActivityFragment extends Fragment {
 
         });
 
-        btnStand = (Button) view.findViewById(R.id.btn_stand);
-        btnStand.setOnClickListener(new View.OnClickListener() {
+        mBtnStand = (Button) view.findViewById(R.id.btn_stand);
+        mBtnStand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (blackjack.dealerHand.countCards() == 0 && blackjack.playerHand.countCards() == 0) {
+                if (sBlackjack.getDealerHand().countCards() == 0 && sBlackjack.getPlayerHand().countCards() == 0) {
                     Toast.makeText(getActivity(),"you have to deal cards before you can stand!",Toast.LENGTH_LONG).show();
                 }
 
                 else {
-                    blackjack.stand();
-                    drawHands(layoutDealerHand1, blackjack.dealerHand.hand);
-                    drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
-                    blackjack.checkWin();
+                    sBlackjack.stand();
+                    drawHands(mLayoutDealerHand1, sBlackjack.getDealerHand().getHand());
+                    drawHands(mLayoutPlayerHand1, sBlackjack.getPlayerHand().getHand());
+                    sBlackjack.checkWin();
                 }
 
-                if (blackjack.checkDraw()) {
-                    resetGame(blackjack);
-                    blackjack.reshuffle();
+                if (sBlackjack.checkDraw()) {
+                    resetGame(sBlackjack);
+                    sBlackjack.reshuffle();
 
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            drawHands(layoutDealerHand1, blackjack.dealerHand.hand);
-                            drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
+                            drawHands(mLayoutDealerHand1, sBlackjack.getDealerHand().getHand());
+                            drawHands(mLayoutPlayerHand1, sBlackjack.getPlayerHand().getHand());
                         }
                     },2500);
 
                 }
 
-                else if (blackjack.playerVictory || blackjack.dealerVictory) {
+                else if (sBlackjack.isPlayerVictory() || sBlackjack.isDealerVictory()) {
 
-                    resetGame(blackjack);
-                    blackjack.reshuffle();
-                    txtViewCash.setText(String.valueOf(blackjack.playerCash));
+                    resetGame(sBlackjack);
+                    sBlackjack.reshuffle();
+                    mTxtViewCash.setText(String.valueOf(sBlackjack.getPlayerCash()));
 
-                    blackjack.reshuffle();
+                    sBlackjack.reshuffle();
 
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            drawHands(layoutDealerHand1, blackjack.dealerHand.hand);
-                            drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
+                            drawHands(mLayoutDealerHand1, sBlackjack.getDealerHand().getHand());
+                            drawHands(mLayoutPlayerHand1, sBlackjack.getPlayerHand().getHand());
 
                         }
                     },2500);
-
                 }
-
 
             }
         });
 
-        btnHit = (Button) view.findViewById(R.id.btn_hit);
-        btnHit.setOnClickListener(new View.OnClickListener() {
+        mBtnHit = (Button) view.findViewById(R.id.btn_hit);
+        mBtnHit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (blackjack.playerHand.countCards() == 0 && blackjack.dealerHand.countCards() ==0 ) {
+                if (sBlackjack.getPlayerHand().countCards() == 0 && sBlackjack.getDealerHand().countCards() ==0 ) {
                     Toast.makeText(getActivity(),"You have to deal before you can hit!",Toast.LENGTH_SHORT).show();
                 }
 
                 else {
-                    blackjack.hit();
-                    drawHands(layoutDealerHand1, blackjack.dealerHand.hand);
-                    drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
-                    blackjack.checkWin();
+                    sBlackjack.hit();
+                    drawHands(mLayoutDealerHand1, sBlackjack.getDealerHand().getHand());
+                    drawHands(mLayoutPlayerHand1, sBlackjack.getPlayerHand().getHand());
+                    sBlackjack.checkWin();
                 }
 
-                if (blackjack.checkDraw()) {
-                    resetGame(blackjack);
-                    blackjack.reshuffle();
+                if (sBlackjack.checkDraw()) {
+                    resetGame(sBlackjack);
+                    sBlackjack.reshuffle();
 
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            drawHands(layoutDealerHand1, blackjack.dealerHand.hand);
-                            drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
+                            drawHands(mLayoutDealerHand1, sBlackjack.getDealerHand().getHand());
+                            drawHands(mLayoutPlayerHand1, sBlackjack.getPlayerHand().getHand());
                         }
                     },2500);
 
                 }
 
-                else if (blackjack.playerVictory || blackjack.dealerVictory) {
+                else if (sBlackjack.isPlayerVictory() || sBlackjack.isDealerVictory()) {
 
-                    resetGame(blackjack);
-                    blackjack.reshuffle();
-                    txtViewCash.setText(String.valueOf(blackjack.playerCash));
+                    resetGame(sBlackjack);
+                    sBlackjack.reshuffle();
+                    mTxtViewCash.setText(String.valueOf(sBlackjack.getPlayerCash()));
 
-                    blackjack.reshuffle();
+                    sBlackjack.reshuffle();
 
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            drawHands(layoutDealerHand1, blackjack.dealerHand.hand);
-                            drawHands(layoutPlayerHand1, blackjack.playerHand.hand);
+                            drawHands(mLayoutDealerHand1, sBlackjack.getDealerHand().getHand());
+                            drawHands(mLayoutPlayerHand1, sBlackjack.getPlayerHand().getHand());
 
                         }
                     },2500);
@@ -204,110 +201,109 @@ public class GameActivityFragment extends Fragment {
             }
         });
 
-        btnBet100 = (Button) view.findViewById(R.id.btn_bet_100);
-        btnBet100.setBackgroundResource(R.drawable.chip100);
-        btnBet100.post(new Runnable() {
+        mBtnBet100 = (Button) view.findViewById(R.id.btn_bet_100);
+        mBtnBet100.setBackgroundResource(R.drawable.chip100);
+        mBtnBet100.post(new Runnable() {
             @Override
             public void run() {
-                int btnBet100Width = btnBet100.getWidth();
-                int btnBet100Height = btnBet100.getHeight();
+                int btnBet100Width = mBtnBet100.getWidth();
+                int btnBet100Height = mBtnBet100.getHeight();
                 Bitmap originalBtnBet100 = BitmapFactory.decodeResource(getResources(),R.drawable.chip100);
                 Bitmap scaledBtnBet100 = Bitmap.createScaledBitmap(originalBtnBet100,btnBet100Width,btnBet100Height,true);
                 Resources resource = getResources();
-                btnBet100.setBackground(new BitmapDrawable(resource,scaledBtnBet100));
+                mBtnBet100.setBackground(new BitmapDrawable(resource,scaledBtnBet100));
             }
         });
 
 
-        btnBet100.setOnClickListener(new View.OnClickListener() {
+        mBtnBet100.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                blackjack.playerBet = 100;
-                txtViewBet.setText(String.valueOf(blackjack.playerBet));
+                sBlackjack.setPlayerBet(100);
+                mTxtViewBet.setText(String.valueOf(sBlackjack.getPlayerBet()));
                 //Toast.makeText(GameActivitgy.this,"something happened!",Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnBet25 = (Button) view.findViewById(R.id.btn_bet_25);
-        btnBet25.setBackgroundResource(R.drawable.chip25);
-        btnBet25.post(new Runnable() {
+        mBtnBet25 = (Button) view.findViewById(R.id.btn_bet_25);
+        mBtnBet25.setBackgroundResource(R.drawable.chip25);
+        mBtnBet25.post(new Runnable() {
             @Override
             public void run() {
-                int btnBet25Width = btnBet25.getWidth();
-                int btnBet25Height = btnBet25.getHeight();
+                int btnBet25Width = mBtnBet25.getWidth();
+                int btnBet25Height = mBtnBet25.getHeight();
                 Bitmap originalBtnBet25 = BitmapFactory.decodeResource(getResources(),R.drawable.chip25);
                 Bitmap scaledBtnBet25 = Bitmap.createScaledBitmap(originalBtnBet25,btnBet25Width,btnBet25Height,true);
                 Resources resource = getResources();
-                btnBet25.setBackground(new BitmapDrawable(resource,scaledBtnBet25));
+                mBtnBet25.setBackground(new BitmapDrawable(resource,scaledBtnBet25));
             }
         });
-        btnBet25.setOnClickListener(new View.OnClickListener() {
+        mBtnBet25.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                blackjack.playerBet = 25;
-                txtViewBet.setText(String.valueOf(blackjack.playerBet));
+                sBlackjack.setPlayerBet(25);
+                mTxtViewBet.setText(String.valueOf(sBlackjack.getPlayerBet()));
                 //Toast.makeText(GameActivity.this,"something happened!",Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnBet5 = (Button) view.findViewById(R.id.btn_bet_5);
-        btnBet5.setBackgroundResource(R.drawable.chip5);
-        btnBet5.post(new Runnable() {
+        mBtnBet5 = (Button) view.findViewById(R.id.btn_bet_5);
+        mBtnBet5.setBackgroundResource(R.drawable.chip5);
+        mBtnBet5.post(new Runnable() {
             @Override
             public void run() {
-                int btnBet5Width = btnBet5.getWidth();
-                int btnBet5Height = btnBet5.getHeight();
+                int btnBet5Width = mBtnBet5.getWidth();
+                int btnBet5Height = mBtnBet5.getHeight();
                 Bitmap originalBtnBet5 = BitmapFactory.decodeResource(getResources(),R.drawable.chip5);
                 Bitmap scaledBtnBet5 = Bitmap.createScaledBitmap(originalBtnBet5,btnBet5Width,btnBet5Height,true);
                 Resources resource = getResources();
-                btnBet5.setBackground(new BitmapDrawable(resource,scaledBtnBet5));
+                mBtnBet5.setBackground(new BitmapDrawable(resource,scaledBtnBet5));
             }
         });
 
-        btnBet5.setOnClickListener(new View.OnClickListener() {
+        mBtnBet5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                blackjack.playerBet = 5;
-                txtViewBet.setText(String.valueOf(blackjack.playerBet));
+                sBlackjack.setPlayerBet(5);
+                mTxtViewBet.setText(String.valueOf(sBlackjack.getPlayerBet()));
 
             }
         });
 
-        btnBet1 = (Button) view.findViewById(R.id.btn_bet_1);
-        btnBet1.setBackgroundResource(R.drawable.chip1);
-        btnBet1.post(new Runnable() {
+        mBtnBet1 = (Button) view.findViewById(R.id.btn_bet_1);
+        mBtnBet1.setBackgroundResource(R.drawable.chip1);
+        mBtnBet1.post(new Runnable() {
             @Override
             public void run() {
-                int btnBet1Width = btnBet1.getWidth();
-                int btnBet1Height = btnBet1.getHeight();
+                int btnBet1Width = mBtnBet1.getWidth();
+                int btnBet1Height = mBtnBet1.getHeight();
                 Bitmap originalBtnBet1 = BitmapFactory.decodeResource(getResources(), R.drawable.chip1);
                 Bitmap scaledBtnBet1 = Bitmap.createScaledBitmap(originalBtnBet1,btnBet1Width,btnBet1Height,true);
                 Resources resource = getResources();
-                btnBet1.setBackground(new BitmapDrawable(resource,scaledBtnBet1));
+                mBtnBet1.setBackground(new BitmapDrawable(resource,scaledBtnBet1));
 
             }
         });
 
-        btnBet1.setOnClickListener(new View.OnClickListener() {
+        mBtnBet1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                blackjack.playerBet = 1;
-                txtViewBet.setText(String.valueOf(blackjack.playerBet));
+                sBlackjack.setPlayerBet(1);
+                mTxtViewBet.setText(String.valueOf(sBlackjack.getPlayerBet()));
 
             }
         });
 
-        btnResetCash = (Button) view.findViewById(R.id.btn_reset_cash);
-        btnResetCash.setOnClickListener(new View.OnClickListener() {
+        mBtnResetCash = (Button) view.findViewById(R.id.btn_reset_cash);
+        mBtnResetCash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                blackjack.playerCash = 500;
-                txtViewCash.setText(String.valueOf(blackjack.playerCash));
+                sBlackjack.setPlayerCash(500);
+                mTxtViewCash.setText(String.valueOf(sBlackjack.getPlayerCash()));
 
             }
         });
-
 
         return view;
     }
@@ -316,7 +312,7 @@ public class GameActivityFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        audioPlayer.stop();
+        mAudioPlayer.stop();
     }
 
     private void drawHands(FrameLayout layout, List<Card> hand) {
@@ -326,7 +322,7 @@ public class GameActivityFragment extends Fragment {
 
         if (hand.size() != 0) {
             int leftMargin = 0;
-
+            
             for (int i = 0; i < hand.size(); i++) {
 
                 FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -335,7 +331,7 @@ public class GameActivityFragment extends Fragment {
                 leftMargin += 70;
                 params1.leftMargin = leftMargin;
 
-                String cardImgId = hand.get(i).imgId;
+                String cardImgId = hand.get(i).getImgId();
                 int imageResource = getResources().getIdentifier(cardImgId, "drawable", getActivity().getPackageName());
                 ImageView card = new ImageView(getActivity());
                 card.setBackgroundResource(imageResource);
@@ -351,39 +347,39 @@ public class GameActivityFragment extends Fragment {
     }
     private void resetGame(Blackjack blackjack) {
 
-        if (blackjack.playerVictory == true) {
+        if (blackjack.isPlayerVictory() == true) {
 
-            String finalScore = "final score: the player -> " + blackjack.playerHand.handValue() + ", the dealer -> "
-                    + blackjack.dealerHand.handValue();
+            String finalScore = "final score: the player -> " + blackjack.getPlayerHand().handValue() + ", the dealer -> "
+                    + blackjack.getDealerHand().handValue();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             VictoryMessageFragment victoryMessageFragment = VictoryMessageFragment.newInstance(finalScore);
             victoryMessageFragment.show(fragmentManager,"Victory Dialog");
 
-            blackjack.playerCash += blackjack.playerBet;
-            blackjack.playerVictory = false;
-            blackjack.dealerVictory = false;
+            blackjack.setPlayerCash(blackjack.getPlayerCash() + blackjack.getPlayerBet());
+            blackjack.setPlayerVictory(false);
+            blackjack.setDealerVictory(false);
             blackjack.reshuffle();
         }
 
-        else if (blackjack.dealerVictory == true) {
+        else if (blackjack.isDealerVictory() == true) {
 
-            String finalScore = "final score: the player -> " + blackjack.playerHand.handValue() + ", the dealer -> "
-                    + blackjack.dealerHand.handValue();
+            String finalScore = "final score: the player -> " + blackjack.getPlayerHand().handValue() + ", the dealer -> "
+                    + blackjack.getDealerHand().handValue();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             DefeatMessageFragment defeatMessageFragment = DefeatMessageFragment.newInstance(finalScore);
             defeatMessageFragment.show(fragmentManager,"Defeat Dialog");
 
-            blackjack.playerCash -= blackjack.playerBet;
-            blackjack.playerVictory = false;
-            blackjack.dealerVictory = false;
+            blackjack.setPlayerCash(blackjack.getPlayerCash()-blackjack.getPlayerBet());
+            blackjack.setPlayerVictory(false);
+            blackjack.setDealerVictory(false);
             blackjack.reshuffle();
         }
 
         // In case of draw ...
 
-        else if (blackjack.playerVictory == false && blackjack.dealerVictory == false) {
-            String finalScore = "final score: the player -> " + blackjack.playerHand.handValue() + ", the dealer -> "
-                    + blackjack.dealerHand.handValue();
+        else if (blackjack.isPlayerVictory() == false && blackjack.isDealerVictory() == false) {
+            String finalScore = "final score: the player -> " + blackjack.getPlayerHand().handValue() + ", the dealer -> "
+                    + blackjack.getDealerHand().handValue();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             DrawMessageFragment drawMessageFragment = DrawMessageFragment.newInstance(finalScore);
             drawMessageFragment.show(fragmentManager,"Draw Dialog");

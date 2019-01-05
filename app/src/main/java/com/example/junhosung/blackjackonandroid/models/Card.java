@@ -7,10 +7,10 @@ package com.example.junhosung.blackjackonandroid.models;
 public class Card {
 
     // Suit = Clubs, Hearts, Diamonds, Spades
-    public String suit;
-    public String rank;
-    public int cardValue;
-    public String imgId;
+    private String suit;
+    private String rank;
+    private int cardValue;
+    private String imgId;
 
     public Card(String suit, String rank, int cardValue, String imgId) {
         this.suit = suit;
@@ -41,6 +41,14 @@ public class Card {
 
     public void setCardValue(int cardValue) {
         this.cardValue = cardValue;
+    }
+
+    public String getImgId() {
+        return imgId;
+    }
+
+    public void setImgId(String imgId) {
+        this.imgId = imgId;
     }
 }
 

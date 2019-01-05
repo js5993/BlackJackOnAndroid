@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Hand {
 
-    public List<Card> hand = new ArrayList<>();
+    private List<Card> hand = new ArrayList<>();
 
     public void addCard(Card card) {
         hand.add(card);
@@ -13,7 +13,6 @@ public class Hand {
 
     public int countCards() {
         return hand.size();
-
     }
 
     public int handValue() {
@@ -27,4 +26,11 @@ public class Hand {
         return handValue;
     }
 
+    public List<Card> getHand() {
+        return hand;
+    }
+
+    public void setHand(List<Card> hand) {
+        this.hand = hand;
+    }
 }

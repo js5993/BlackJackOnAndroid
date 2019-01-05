@@ -6,10 +6,10 @@ import java.util.List;
 
 public class Deck {
 
-    public String[] suits = {"Clubs","Hearts","Diamonds","Spades"};
-    public String[] ranks = {"Ace","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};
-    public Integer[] values = {10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10,10};
-    public List<Card> deck = new ArrayList<>();
+    private String[] suits = {"Clubs","Hearts","Diamonds","Spades"};
+    private String[] ranks = {"Ace","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};
+    private Integer[] values = {10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10,10};
+    private List<Card> deck = new ArrayList<>();
 
     public Deck() {
 
@@ -19,11 +19,9 @@ public class Deck {
                 Card card = new Card(suits[i],ranks[j],values[j],"c"+String.valueOf(counter));
                 deck.add(card);
                 counter++;
-
             }
         }
     }
-
 
     public void addCard(Card card) {
         this.deck.add(card);
@@ -51,4 +49,35 @@ public class Deck {
 
     }
 
+    public String[] getSuits() {
+        return suits;
+    }
+
+    public void setSuits(String[] suits) {
+        this.suits = suits;
+    }
+
+    public String[] getRanks() {
+        return ranks;
+    }
+
+    public void setRanks(String[] ranks) {
+        this.ranks = ranks;
+    }
+
+    public Integer[] getValues() {
+        return values;
+    }
+
+    public void setValues(Integer[] values) {
+        this.values = values;
+    }
+
+    public List<Card> getDeck() {
+        return deck;
+    }
+
+    public void setDeck(List<Card> deck) {
+        this.deck = deck;
+    }
 }
