@@ -34,7 +34,7 @@ import java.util.List;
  */
 
 
-public class GameActivityFragment extends Fragment {
+public class GameFragment extends Fragment {
 
     TextView mTxtViewCash;
     TextView mTxtViewBet;
@@ -221,7 +221,6 @@ public class GameActivityFragment extends Fragment {
             public void onClick(View view) {
                 sBlackjack.setPlayerBet(100);
                 mTxtViewBet.setText(String.valueOf(sBlackjack.getPlayerBet()));
-                //Toast.makeText(GameActivitgy.this,"something happened!",Toast.LENGTH_SHORT).show();
             }
         });
 

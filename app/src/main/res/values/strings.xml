@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">BlackJackOnAndroid</string>
     <string name="title_activity_welcome_menu">WelcomeMenuActivity</string>
+    <string name="blackjack">Blackjack</string>
 </resources>
