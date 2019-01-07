@@ -2,4 +2,9 @@
     <string name="app_name">BlackJackOnAndroid</string>
     <string name="title_activity_welcome_menu">WelcomeMenuActivity</string>
     <string name="blackjack">Blackjack</string>
+    <string name="play_game">Play Game</string>
+    <string name="about">About</string>
+    <string name="victory">Victory!</string>
+    <string name="draw">A Draw!</string>
+    <string name="defeat">You have lost!</string>
 </resources>
