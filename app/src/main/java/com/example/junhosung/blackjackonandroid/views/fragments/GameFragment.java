@@ -314,6 +314,18 @@ public class GameFragment extends Fragment {
         mAudioPlayer.stop();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAudioPlayer.stop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAudioPlayer.play(getActivity());
+    }
+
     private void drawHands(FrameLayout layout, List<Card> hand) {
         if (layout.getChildCount() > 0) {
             layout.removeAllViews();

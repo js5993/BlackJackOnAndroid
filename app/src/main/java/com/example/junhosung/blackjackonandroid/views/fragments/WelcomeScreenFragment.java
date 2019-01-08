@@ -38,7 +38,7 @@ public class WelcomeScreenFragment extends Fragment {
         mGameTitle = (TextView) view.findViewById(R.id.txt_game_title);
         mGameTitle.setText(R.string.blackjack);
 
-        mBtnStartGame = (Button) view.findViewById(R.id.btn_start_game);
+        mBtnStartGame = (Button) view.findViewById(R.id.btn_play_game);
         mBtnStartGame.setText(R.string.play_game);
         mBtnStartGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +48,7 @@ public class WelcomeScreenFragment extends Fragment {
             }
         });
 
-        mBtnSeeInfo = (Button) view.findViewById(R.id.btn_see_info);
+        mBtnSeeInfo = (Button) view.findViewById(R.id.btn_about);
         mBtnSeeInfo.setText(R.string.about);
         mBtnSeeInfo.setOnClickListener(new View.OnClickListener() {
             @Override

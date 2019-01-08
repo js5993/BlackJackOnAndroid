@@ -49,7 +49,6 @@ public class Blackjack {
         if ((dealerHand.handValue() != 21 && playerHand.handValue() == 21 && dealerHand.handValue() >= 17)
                 || (playerHand.handValue() == 21 && dealerHand.handValue() < 17) )  {
             playerVictory = true;
-
         }
 
         // dealer gets 21 and wins
@@ -68,7 +67,7 @@ public class Blackjack {
         }
 
         // no 21s but the player has the greater ending values that is < 21
-        if (dealerHand.handValue() >= 17 && dealerHand.handValue() < 21 && playerHand.handValue() < 21
+        else if (dealerHand.handValue() >= 17 && dealerHand.handValue() < 21 && playerHand.handValue() < 21
                 && playerHand.handValue() > dealerHand.handValue()) {
             playerVictory = true;
         }
