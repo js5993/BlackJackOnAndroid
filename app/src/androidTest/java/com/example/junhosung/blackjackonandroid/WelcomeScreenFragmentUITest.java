@@ -30,7 +30,7 @@ import static org.junit.Assert.*;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class WelcomeScreenFragmentUITest {
 
     @Rule
     public IntentsTestRule<WelcomeScreenActivity> mWelcomeScreenActivityActivityTestRule =
@@ -40,13 +40,6 @@ public class ExampleInstrumentedTest {
     public void setup() throws Exception {
         mWelcomeScreenActivityActivityTestRule.getActivity()
                 .getSupportFragmentManager().beginTransaction();
-    }
-
-    @Test
-    public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
-        assertEquals("com.example.junhosung.blackjackonandroid", appContext.getPackageName());
     }
 
     @Test
@@ -60,5 +53,6 @@ public class ExampleInstrumentedTest {
         Espresso.onView(withId(R.id.btn_play_game)).perform(click());
         intended(hasComponent(GameActivity.class.getName()));
     }
+
 
 }
